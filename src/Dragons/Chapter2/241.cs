@@ -1,16 +1,19 @@
 ﻿namespace Dragons.Chapter2
 {
-    /**
-     * Construct a recursive descent parser for the following grammar:
-     * 
-     * S -> + S S | - S S | a
-     */
-    class _241
+    ///
+    /// <summary>
+    /// Construct a recursive descent parser for the following grammar:
+    /// 
+    /// S -> + S S | - S S | a
+    /// </summary>
+    ///
+    public class _241
     {
         private SingleCharTokenizer tokenizer;
         private char lookahead;
         public _241(string source)
         {
+            
             this.tokenizer = new SingleCharTokenizer(source);
             lookahead = tokenizer.nextToken();
         }
@@ -33,7 +36,7 @@
                 case '-':
                     match('-');
                     S();
-                    S(); 
+                    S();
                     break;
                 case 'a':
                     match('a');

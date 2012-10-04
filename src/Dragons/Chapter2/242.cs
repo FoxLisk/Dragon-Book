@@ -1,11 +1,13 @@
 ﻿namespace Dragons.Chapter2
 {
-    /**
-     * Construct a recursive descent parser for the following grammar:
-     * 
-     * S -> S ( S ) S | e
-     */
-    class _242
+    ///
+    /// <summary>
+    /// Construct a recursive descent parser for the following grammar:
+    /// 
+    /// S -> S ( S ) S | e
+    /// </summary>
+    ///
+    public class _242
     {
         private SingleCharTokenizer tokenizer;
         private char nextChar;

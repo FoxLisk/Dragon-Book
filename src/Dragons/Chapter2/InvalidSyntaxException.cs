@@ -2,7 +2,7 @@
 
 namespace Dragons.Chapter2
 {
-    class InvalidSyntaxException : Exception
+    public class InvalidSyntaxException : Exception
     {
     }
 }

@@ -1,59 +1,61 @@
 ﻿namespace Dragons.Chapter2
 {
-        /**
-         * Construct a recursive descent parser for the following grammar:
-         * 
-         * S -> 0 S 1 | 0 1
-         * 
-         * Not predictable? 0 can start either production.
-         */
-    class _243
+    ///
+    /// <summary>
+    /// Construct a recursive descent parser for the following grammar:
+    /// 
+    /// S -> 0 S 1 | 0 1
+    /// 
+    /// Not predictable? 0 can start either production.
+    /// </summary>
+    ///
+    public class _243
     {
-            private SingleCharTokenizer tokenizer;
-            private char next;
-            private char second;
-            public _243(string source)
+        private SingleCharTokenizer tokenizer;
+        private char next;
+        private char second;
+        public _243(string source)
+        {
+            this.tokenizer = new SingleCharTokenizer(source);
+            next = tokenizer.nextToken();
+            second = tokenizer.nextToken();
+        }
+
+        public void Parse()
+        {
+            S();
+            match('\0');
+        }
+
+        private void S()
+        {
+            switch ("" + next + second)
             {
-                this.tokenizer = new SingleCharTokenizer(source);
-                next = tokenizer.nextToken();
+                case "01":
+                    match('0');
+                    match('1');
+                    break;
+                default:
+                    match('0');
+                    S();
+                    match('1');
+                    break;
+            }
+        }
+
+        private void match(char expected)
+        {
+            if (next == expected)
+            {
+                next = second;
                 second = tokenizer.nextToken();
             }
-
-            public void Parse()
+            else
             {
-                S();
-                match('\0');
+                throw new InvalidSyntaxException();
             }
+        }
 
-            private void S()
-            {
-                switch ("" + next + second)
-                {
-                    case "01":
-                        match('0');
-                        match('1');
-                        break;
-                    default:
-                        match('0');
-                        S();
-                        match('1'); 
-                        break;
-                }
-            }
 
-            private void match(char expected)
-            {
-                if (next == expected)
-                {
-                    next = second;
-                    second = tokenizer.nextToken();
-                }
-                else
-                {
-                    throw new InvalidSyntaxException();
-                }
-            }
-
-        
     }
 }
