@@ -9,7 +9,7 @@ namespace DragonTest
     public class _242Test
     {
         [TestMethod]
-        public void TestSuccseses()
+        public void TestSuccesses()
         {
             List<String> validStrings = new List<String>()
             {
