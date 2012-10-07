@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dragons.Chapter2.Lexer
 {
-    class OriginalLexer
+    public class OriginalLexer
     {
         public int line = 1;
         private char peek = ' ';

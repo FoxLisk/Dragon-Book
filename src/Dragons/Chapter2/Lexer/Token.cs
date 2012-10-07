@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dragons.Chapter2.Lexer
 {
-    class Token
+    public class Token
     {
         public readonly int tag;
         public Token(int t)
