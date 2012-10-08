@@ -34,6 +34,7 @@ namespace DragonTest.Chapter2.Lexer
             var token = lex.Scan();
             Assert.AreEqual(token.tag, Tag.INTEGER);
         }
+
         [TestMethod]
         public void TestEndOfSource()
         {

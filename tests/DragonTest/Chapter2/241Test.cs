@@ -33,7 +33,7 @@ namespace DragonTest
                 Assert.Fail();
                 Console.WriteLine("try");
             }
-            catch (InvalidSyntaxException e)
+            catch (InvalidSyntaxException)
             {
                 Console.WriteLine("Catch");
                 return;

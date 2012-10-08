@@ -8,29 +8,42 @@ namespace Dragons.Chapter2.Lexer
 {
     public class NewLexer
     {
-        public int line = 1;
-        private char peek = ' ';
-        private Dictionary<String, Word> words = new Dictionary<string, Word>();
-        private TextReader sourceStream;
-        void reserve(Word word)
-        {
-            words[word.lexeme] = word;
-        }
+        protected int line = 1;
+        protected char peek = ' ';
+        protected Dictionary<String, Word> words = new Dictionary<string, Word>();
+        protected TextReader sourceStream;
+
         public NewLexer(TextReader source)
         {
             sourceStream = source;
 
-            reserve(new Word(Tag.TRUE, "true"));
-            reserve(new Word(Tag.FALSE, "false"));
+            Reserve(new Word(Tag.TRUE, "true"));
+            Reserve(new Word(Tag.FALSE, "false"));
+            AdvancePeek();
         }
-        public Token Scan()
+
+        private void Reserve(Word word)
+        {
+            words[word.lexeme] = word;
+        }
+
+        protected void AdvancePeek()
+        {
+            peek = (char)sourceStream.Read();
+        }
+
+        /// <summary>
+        /// Scans the input and returns the next token
+        /// </summary>
+        /// <returns>Token</returns>
+        virtual public Token Scan()
         {
             int next = sourceStream.Peek();
             if (next == -1)
             {
                 return null;
             }
-            for (; ; peek = (char)sourceStream.Read())
+            do
             {
                 if (peek == ' ' || peek == '\t')
                 {
@@ -44,43 +57,55 @@ namespace Dragons.Chapter2.Lexer
                 {
                     break;
                 }
-            }
+                AdvancePeek();
+            } while (true);
             return BuildToken();
         }
 
-        private Token BuildToken() {
+        protected Token BuildToken()
+        {
             if (Char.IsDigit(peek))
             {
-                int v = 0;
-                do
-                {
-                    v = 10 * v + int.Parse(peek.ToString()); //this is dumb is there a better way?
-                    peek = (char)sourceStream.Read();
-                } while (Char.IsDigit(peek));
-                return new IntegerToken(v);
+                return Integer();
             }
             if (Char.IsLetter(peek))
             {
-                string wordValue = "";
-                do
-                {
-                    wordValue += peek;
-                    peek = (char)sourceStream.Read();
-                } while (Char.IsLetterOrDigit(peek));
-                if (words.ContainsKey(wordValue))
-                {
-                    return words[wordValue];
-                }
-                else
-                {
-                    Word w = new Word(Tag.IDENTIFIER, wordValue);
-                    words[wordValue] = w;
-                    return w;
-                }
+                return Word();
             }
             Token t = new Token(peek);
             peek = ' ';
             return t;
+        }
+
+        private Token Word()
+        {
+            string wordValue = "";
+            do
+            {
+                wordValue += peek;
+                AdvancePeek();
+            } while (Char.IsLetterOrDigit(peek));
+            if (words.ContainsKey(wordValue))
+            {
+                return words[wordValue];
+            }
+            else
+            {
+                Word w = new Word(Tag.IDENTIFIER, wordValue);
+                words[wordValue] = w;
+                return w;
+            }
+        }
+
+        private Token Integer()
+        {
+            int v = 0;
+            do
+            {
+                v = 10 * v + int.Parse(peek.ToString()); //this is dumb is there a better way?
+                AdvancePeek();
+            } while (Char.IsDigit(peek));
+            return new IntegerToken(v);
         }
     }
 }
