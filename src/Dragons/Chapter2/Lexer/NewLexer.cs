@@ -25,6 +25,11 @@ namespace Dragons.Chapter2.Lexer
         }
         public Token scan()
         {
+            int next = sourceStream.Peek();
+            if (next == -1)
+            {
+                return null;
+            }
             for (; ; peek = (char)sourceStream.Read())
             {
                 if (peek == ' ' || peek == '\t')
