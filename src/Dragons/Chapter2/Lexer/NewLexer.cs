@@ -23,7 +23,7 @@ namespace Dragons.Chapter2.Lexer
             reserve(new Word(Tag.TRUE, "true"));
             reserve(new Word(Tag.FALSE, "false"));
         }
-        public Token scan()
+        public Token Scan()
         {
             int next = sourceStream.Peek();
             if (next == -1)
@@ -45,6 +45,10 @@ namespace Dragons.Chapter2.Lexer
                     break;
                 }
             }
+            return BuildToken();
+        }
+
+        private Token BuildToken() {
             if (Char.IsDigit(peek))
             {
                 int v = 0;

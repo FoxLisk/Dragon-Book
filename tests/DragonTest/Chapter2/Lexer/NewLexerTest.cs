@@ -12,10 +12,10 @@ namespace DragonTest.Chapter2.Lexer
         public void TestReservedWords()
         {
             var lex = new NewLexer(new StringReader("true"));
-            var token = lex.scan();
+            var token = lex.Scan();
             Assert.AreEqual(token.tag, Tag.TRUE);
             lex = new NewLexer(new StringReader("false"));
-            token = lex.scan();
+            token = lex.Scan();
             Assert.AreEqual(token.tag, Tag.FALSE);
         }
 
@@ -23,7 +23,7 @@ namespace DragonTest.Chapter2.Lexer
         public void TestIdentifiers()
         {
             var lex = new NewLexer(new StringReader("asdf"));
-            var token = lex.scan();
+            var token = lex.Scan();
             Assert.AreEqual(token.tag, Tag.IDENTIFIER);
         }
 
@@ -31,14 +31,14 @@ namespace DragonTest.Chapter2.Lexer
         public void TestInteger()
         {
             var lex = new NewLexer(new StringReader("123"));
-            var token = lex.scan();
+            var token = lex.Scan();
             Assert.AreEqual(token.tag, Tag.INTEGER);
         }
         [TestMethod]
         public void TestEndOfSource()
         {
             var lex = new NewLexer(new StringReader(""));
-            var token = lex.scan();
+            var token = lex.Scan();
             Assert.IsNull(token);
         }
     }
