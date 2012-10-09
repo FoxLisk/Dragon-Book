@@ -21,7 +21,10 @@ namespace Dragons.Chapter2.Lexer
             Reserve(new Word(Tag.FALSE, "false"));
             AdvancePeek();
         }
-
+        protected bool EndOfSource()
+        {
+            return sourceStream.Peek() == -1;
+        }
         private void Reserve(Word word)
         {
             words[word.lexeme] = word;
@@ -38,8 +41,7 @@ namespace Dragons.Chapter2.Lexer
         /// <returns>Token</returns>
         virtual public Token Scan()
         {
-            int next = sourceStream.Peek();
-            if (next == -1)
+            if (EndOfSource())
             {
                 return null;
             }
@@ -64,6 +66,10 @@ namespace Dragons.Chapter2.Lexer
 
         protected Token BuildToken()
         {
+            if (EndOfSource())
+            {
+                return null;
+            }
             if (Char.IsDigit(peek))
             {
                 return Integer();

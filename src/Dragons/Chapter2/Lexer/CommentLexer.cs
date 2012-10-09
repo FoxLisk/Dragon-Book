@@ -6,7 +6,10 @@ using System.Text;
 
 namespace Dragons.Chapter2.Lexer
 {
-    class CommentLexer : NewLexer
+    /// <summary>
+    /// This extends the lexer to ignore // and /* */ comments.
+    /// </summary>
+    public class CommentLexer : NewLexer
     {
         public CommentLexer(TextReader source) : base(source) { }
 
@@ -16,8 +19,7 @@ namespace Dragons.Chapter2.Lexer
         /// <returns>Token</returns>
         public Token Scan()
         {
-            int next = sourceStream.Peek();
-            if (next == -1)
+            if (EndOfSource())
             {
                 return null;
             }
@@ -33,25 +35,25 @@ namespace Dragons.Chapter2.Lexer
                 }
                 else if (peek == '/')
                 {
-                    if ((char)next == '/')
+                    if ((char)sourceStream.Peek() == '/')
                     {
                         AdvancePeek();
-                        while (peek != '\n')
+                        while (peek != '\n' && !EndOfSource())
                         {
                             AdvancePeek();
                         }
                     }
-                    else if ((char)next == '*')
+                    else if ((char)sourceStream.Peek() == '*')
                     {
                         AdvancePeek();
-                        while (true)
+                        while (!EndOfSource())
                         {
                             AdvancePeek();
                             if (peek == '*' && (char)sourceStream.Peek() == '/')
                             {
                                 AdvancePeek();
+                                break;
                             }
-                            break;
                         }
                     }
                 }
