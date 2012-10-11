@@ -9,7 +9,18 @@ namespace Dragons.Chapter2.Lexer
     public class NewLexer
     {
         protected int line = 1;
-        protected char peek = ' ';
+        private int currentChar = ' ';
+        protected char peek
+        {
+            get
+            {
+                return (char)currentChar;
+            }
+            set
+            {
+                currentChar = value;
+            }
+        }
         protected Dictionary<String, Word> words = new Dictionary<string, Word>();
         protected TextReader sourceStream;
 
@@ -23,7 +34,8 @@ namespace Dragons.Chapter2.Lexer
         }
         protected bool EndOfSource()
         {
-            return sourceStream.Peek() == -1;
+            return currentChar == -1;
+            //return sourceStream.Peek() == -1;
         }
         private void Reserve(Word word)
         {
@@ -32,7 +44,7 @@ namespace Dragons.Chapter2.Lexer
 
         protected void AdvancePeek()
         {
-            peek = (char)sourceStream.Read();
+            currentChar = sourceStream.Read();
         }
 
         /// <summary>
@@ -49,10 +61,12 @@ namespace Dragons.Chapter2.Lexer
             {
                 if (peek == ' ' || peek == '\t')
                 {
+                    AdvancePeek();
                     continue;
                 }
                 else if (peek == '\n')
                 {
+                    AdvancePeek();
                     ++line;
                 }
                 else
@@ -64,7 +78,7 @@ namespace Dragons.Chapter2.Lexer
             return BuildToken();
         }
 
-        protected Token BuildToken()
+        virtual protected Token BuildToken()
         {
             if (EndOfSource())
             {
