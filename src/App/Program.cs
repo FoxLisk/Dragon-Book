@@ -1,4 +1,5 @@
 ﻿using Dragons.Chapter2.Lexer;
+using Dragons.Chapter3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,11 @@ namespace App
     {
         static void Main(string[] args)
         {
-            var x = new OriginalLexer();
-            x.scan();
+            int[] f = new Failure().failureFunction("ababaa");
+            for (int i = 0; i < f.Length; i++)
+            {
+                Console.WriteLine((i + 1) + ": " + f[i]);
+            }
         }
     }
 }
